@@ -2,7 +2,11 @@ package br.senai.lab365.demospringboot.controllers;
 
 import br.senai.lab365.demospringboot.dtos.PetGetRequest;
 import br.senai.lab365.demospringboot.models.Pet;
+import br.senai.lab365.demospringboot.models.Tutor;
+import br.senai.lab365.demospringboot.services.PetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/pets")
 public class PetController {
+
+    @Autowired
+    private PetService service;
 
     @GetMapping
     public String buscaPets(@RequestParam(required = false) String especie,
@@ -52,6 +59,11 @@ public class PetController {
     @PutMapping("/{id}")
     public String atualizaPet() {
         return "pet atualizado";
+    }
+
+    @PatchMapping("/{idPet}")
+    public void associaTutor(@PathVariable int idPet, @RequestBody Tutor tutor) {
+        service.associaTutor(idPet, tutor);
     }
 
 }
